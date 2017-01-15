@@ -7,19 +7,19 @@ import android.content.Context;
  */
 
 public class Presenter implements
-        Contract.BalancePresenter{
+        Contract.ContractPresenter {
 
-    private Contract.BalanceView view;
+    private Contract.PresenterShowTextView view;
     private Context context;
 
 
     @Override
-    public void setView(Contract.BalanceView view) {
+    public void setView(Contract.PresenterShowTextView view) {
         this.view = view;
 
     }
 
-    public void setContext (Context context){
+    public void setContext(Context context) {
         this.context = context;
 
     }
@@ -27,6 +27,5 @@ public class Presenter implements
     public void letsCallTheShowText() {
         this.view.showText("");
     }
-
 
 }

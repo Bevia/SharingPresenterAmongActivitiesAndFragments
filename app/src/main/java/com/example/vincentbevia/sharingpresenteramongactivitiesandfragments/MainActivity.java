@@ -1,7 +1,9 @@
 package com.example.vincentbevia.sharingpresenteramongactivitiesandfragments;
 
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -10,29 +12,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements
-        Contract.BalanceView, Contract.CallBack{
+        Contract.PresenterShowTextView, Contract.CallBack {
 
+    final int version = Build.VERSION.SDK_INT;
     private TextView MainTextView;
     private FrameLayout containerView;
-    private Button ButtonPanel;
+    private Button OpenFragmentButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MainTextView = (TextView)findViewById(R.id.main_text_view);
+        MainTextView = (TextView) findViewById(R.id.main_text_view);
         MainTextView.setText("Testing Presenter");
         containerView = (FrameLayout) findViewById(R.id.containerView);
 
-        ButtonPanel = (Button) findViewById(R.id.buttonPanel);
-        ButtonPanel.setOnClickListener(new View.OnClickListener() {
+        OpenFragmentButton = (Button) findViewById(R.id.buttonPanel);
+        //lets keep it nice for devices running lower versions ;)
+        if (version < 23) {
+            OpenFragmentButton.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            OpenFragmentButton.setTextColor(ContextCompat.getColor(this, android.R.color.white));
+        }
+        OpenFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 goToFragment();
-                ButtonPanel.setText("FRAGMENT OPENED");
-                ButtonPanel.setEnabled(false);
+                OpenFragmentButton.setText("FRAGMENT OPENED");
+                OpenFragmentButton.setEnabled(false);
 
             }
         });
@@ -40,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void goToFragment() {
 
-        new PresenterCaller(this,this);
+        new PresenterCaller(this, this);
 
         MainFragment secFrag = new MainFragment();
         android.app.FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
@@ -63,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void methodToCallBack() {
         MainTextView.setText("Testing Presenter");
-        ButtonPanel.setText("OPEN FRAGMENT");
-        ButtonPanel.setEnabled(true);
+        OpenFragmentButton.setText("OPEN FRAGMENT");
+        OpenFragmentButton.setEnabled(true);
 
         Toast.makeText(this, "Called back", Toast.LENGTH_SHORT).show();
     }

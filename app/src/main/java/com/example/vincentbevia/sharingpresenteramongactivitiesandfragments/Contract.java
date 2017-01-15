@@ -6,13 +6,13 @@ package com.example.vincentbevia.sharingpresenteramongactivitiesandfragments;
 
 public interface Contract {
 
-    interface BalanceView {
+    interface PresenterShowTextView {
     void showText(String text);
 
     }
 
-    interface BalancePresenter {
-        void setView(Contract.BalanceView view);
+    interface ContractPresenter {
+        void setView(Contract.PresenterShowTextView view);
 
     }
 

@@ -3,7 +3,9 @@ package com.example.vincentbevia.sharingpresenteramongactivitiesandfragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +17,14 @@ import android.widget.TextView;
  * A simple {@link Fragment} subclass.
  */
 public class MainFragment extends Fragment implements
-        Contract.BalanceView {
+        Contract.PresenterShowTextView {
 
 
-    private TextView fragmentTextView;
-    private TextView textToBeChanged;
-    private Button fragmentButton;
-    private Button fragmentButton1;
-    Presenter presenter;
+    private TextView FragmentTextView;
+    private TextView TextToBeChanged;
+    private Button FragmentTestPresenterButton;
+    private Button CloseFragmentButton;
+    final int version = Build.VERSION.SDK_INT;
     private Contract.CallBack callBack; //Composition here...I need this reference for callback!
     Context context;
 
@@ -38,12 +40,23 @@ public class MainFragment extends Fragment implements
 
         callBack = (Contract.CallBack) getActivity();
 
-        textToBeChanged = (TextView) getActivity().findViewById(R.id.textToBeChanged);
-        fragmentTextView = (TextView) getActivity().findViewById(R.id.fragmentTextView);
-        fragmentTextView.setText("Fragment now active");
+        TextToBeChanged = (TextView) getActivity().findViewById(R.id.textToBeChanged);
+        FragmentTextView = (TextView) getActivity().findViewById(R.id.fragmentTextView);
+        FragmentTextView.setText("Fragment now active");
 
-        fragmentButton = (Button) getActivity().findViewById(R.id.fragmentButton);
-        fragmentButton.setOnClickListener(new View.OnClickListener() {
+        FragmentTestPresenterButton = (Button) getActivity().findViewById(R.id.fragmentButton);
+        CloseFragmentButton = (Button) getActivity().findViewById(R.id.fragmentButton1);
+
+        //lets keep it nice for devices running lower versions ;)
+        if (version < 23) {
+            FragmentTestPresenterButton.setBackgroundColor( ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+            FragmentTestPresenterButton.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+
+            CloseFragmentButton.setBackgroundColor( ContextCompat.getColor(getActivity(), android.R.color.holo_red_dark));
+            CloseFragmentButton.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
+        }
+
+        FragmentTestPresenterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -52,11 +65,9 @@ public class MainFragment extends Fragment implements
             }
         });
 
-        fragmentButton1 = (Button) getActivity().findViewById(R.id.fragmentButton1);
-        fragmentButton1.setOnClickListener(new View.OnClickListener() {
+        CloseFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //Call the method from MainActivity...
                 callBack.methodToCallBack();
                 //Close this fragment...
@@ -67,7 +78,6 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void showText(String text) {
-        textToBeChanged.setText("I'm the Fragemnt, and I've been called from presenter!");
-
+        TextToBeChanged.setText("I'm the Fragemnt, and I've been called from presenter!");
     }
 }

@@ -8,12 +8,11 @@ import android.content.Context;
 
 public class PresenterCaller {
 
-    private Contract.BalancePresenter contractPresenter;
+    private Contract.ContractPresenter contractPresenter;
     private Presenter presenter;
     private Context context;
     private MainActivity mainActivity;
     private MainFragment mainFragment;
-
 
     /**
      * Overloading constructors:
@@ -34,18 +33,14 @@ public class PresenterCaller {
         callPresenterForFragment();
     }
 
-    /**
-     * This presenter is used by this activity and also by the fragment!
-     */
-
-    private void callPresenterForFragment() {
-        presenter = new Presenter();
-        presenter.setContext(context);
-        presenter.setView(mainFragment);
-        setPresenter(presenter);
-        presenter.setView(mainFragment);
-        presenter.letsCallTheShowText();
+    public void setPresenter (Contract.ContractPresenter contractPresenter){
+        this.contractPresenter = contractPresenter;
     }
+
+    /**
+     * This presenter is used by the MainActivity and also by the MainFragment!
+     * You can keep on adding more "VIEWS" (Activities or Fragments) here.
+     */
 
     private void callPresenterForActivity() {
         presenter = new Presenter();
@@ -56,8 +51,12 @@ public class PresenterCaller {
         presenter.letsCallTheShowText();
     }
 
-    public void setPresenter (Contract.BalancePresenter contractPresenter){
-        this.contractPresenter = contractPresenter;
-
+    private void callPresenterForFragment() {
+        presenter = new Presenter();
+        presenter.setContext(context);
+        presenter.setView(mainFragment);
+        setPresenter(presenter);
+        presenter.setView(mainFragment);
+        presenter.letsCallTheShowText();
     }
 }

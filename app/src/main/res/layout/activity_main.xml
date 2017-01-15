@@ -20,18 +20,18 @@
         android:id="@+id/buttonPanel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Open Fragment"
+        android:layout_below="@+id/main_text_view"
         android:backgroundTint="@color/colorAccent"
-        android:layout_below="@+id/main_text_view"/>
+        android:padding="20dp"
+        android:text="Open Fragment" />
 
     <FrameLayout
-        android:visibility="gone"
-        android:layout_below="@+id/buttonPanel"
-        android:orientation="vertical"
-        android:layout_marginTop="54dp"
+        android:id="@+id/containerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/containerView">
-    </FrameLayout>
+        android:layout_below="@+id/buttonPanel"
+        android:layout_marginTop="54dp"
+        android:orientation="vertical"
+        android:visibility="gone"></FrameLayout>
 
 </RelativeLayout>
