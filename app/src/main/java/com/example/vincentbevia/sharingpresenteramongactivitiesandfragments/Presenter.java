@@ -27,4 +27,6 @@ public class Presenter implements
     public void letsCallTheShowText() {
         this.view.showText("");
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.example.vincentbevia.sharingpresenteramongactivitiesandfragments;
 
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +22,9 @@ public class MainFragment extends Fragment implements
     private TextView textToBeChanged;
     private Button fragmentButton;
     private Button fragmentButton1;
-    private Contract.BalancePresenter contractPresenter;
-    private Presenter presenter;
+    Presenter presenter;
     private Contract.CallBack callBack; //Composition here...I need this reference for callback!
+    Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +47,7 @@ public class MainFragment extends Fragment implements
             @Override
             public void onClick(View v) {
 
-                presenter.letsCallTheShowText();
+                new PresenterCaller(context, MainFragment.this);
 
             }
         });
@@ -62,29 +63,7 @@ public class MainFragment extends Fragment implements
                 getActivity().getFragmentManager().popBackStack();
             }
         });
-
-
-        /**
-         *
-         *
-         */
-        presenter = new Presenter();
-        presenter.setContext(getActivity());
-        this.presenter.setView(MainFragment.this);
-        this.setPresenter(presenter);
-        this.contractPresenter.setView(MainFragment.this);
-        /**
-         *
-         *
-         */
-
     }
-
-    public void setPresenter(Contract.BalancePresenter contractPresenter) {
-        this.contractPresenter = contractPresenter;
-
-    }
-
 
     @Override
     public void showText(String text) {

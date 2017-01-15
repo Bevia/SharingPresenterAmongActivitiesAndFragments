@@ -2,7 +2,6 @@ package com.example.vincentbevia.sharingpresenteramongactivitiesandfragments;
 
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,10 +13,6 @@ public class MainActivity extends AppCompatActivity implements
         Contract.BalanceView, Contract.CallBack{
 
     private TextView MainTextView;
-    private Contract.BalancePresenter contractPresenter;
-    private Presenter presenter;
-    private android.support.v4.app.FragmentManager mFragmentManager;
-    private FragmentTransaction mFragmentTransaction;
     private FrameLayout containerView;
     private Button ButtonPanel;
 
@@ -43,27 +38,9 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
-    /**
-     * This presenter is used by this activity and also by the fragment!
-     */
-    private void callPresenter() {
-        presenter = new Presenter();
-        presenter.setContext(this);
-        presenter.setView(this);
-        setPresenter(presenter);
-        presenter.setView(this);
-
-        presenter.letsCallTheShowText();
-    }
-
-    public void setPresenter (Contract.BalancePresenter contractPresenter){
-        this.contractPresenter = contractPresenter;
-
-    }
-
     private void goToFragment() {
 
-        callPresenter();
+        new PresenterCaller(this,this);
 
         MainFragment secFrag = new MainFragment();
         android.app.FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
